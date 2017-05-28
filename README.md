@@ -221,11 +221,11 @@ sid=........
 
 ###	支付结果异步通知
 * 1）**请求地址：** 由游戏cp方提供
-* 2）**调用方式：** HTTP POST
+* 2）**调用方式：** HTTP Get
 * 3）**接口描述：**
 **“游戏客户端”**购买成功后，**“SDK 服务器”**通过该接口通知**”游戏服务器“**。支付成功一定会及时回调通知，支付失败可能不会及时通知（如支付超时等无法及时通知），如果需要知道订单状态，使用支付结果查询结构。
-* 4）**请求方：** SDK 服务器
-* 5）**响应方：** 游戏服务器
+* 4）**请求方：** SDK 服务器  '''http://sdk.xiaoshouhudong.com/api.php/pay/topay'''
+* 5）**响应方：** 游戏服务器 
 * 6）**请求内容：** JSON 格式
 <table>
     <thead>
@@ -239,50 +239,29 @@ sid=........
     </thead>
     <tbody>
         <tr>
-            <td>data</td>
-            <td>请求数据</td>
-            <td>json</td>
+            <td>cpOrderNo</td>
+            <td>CP方订单</td>
+            <td>int</td>
             <td>是</td>
             <td>JSON格式</td>
         </tr>
         <tr>
-            <td>sign</td>
-            <td>签名参数</td>
-            <td>string</td>
-            <td>是</td>
-            <td>MD5(cpId+签名内容+apiKey)</td>
-        </tr>
-        <tr>
-            <td>order_no</td>
-            <td>订单号</td>
-            <td>string</td>
-            <td>是</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>game_id</td>
-            <td>游戏ID</td>
+            <td>XSOrderNo</td>
+            <td>小手互动平台订单</td>
             <td>int</td>
             <td>是</td>
             <td></td>
         </tr>
         <tr>
-            <td>server_id</td>
-            <td>服务器ID</td>
+            <td>gameId</td>
+            <td>游戏Id</td>
             <td>int</td>
             <td>是</td>
             <td></td>
         </tr>
         <tr>
-            <td>huowu_id</td>
-            <td>用户ID</td>
-            <td>string</td>
-            <td>是</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>pay_way</td>
-            <td>支付方式</td>
+            <td>serverId</td>
+            <td>游戏区服</td>
             <td>string</td>
             <td>是</td>
             <td></td>
@@ -292,66 +271,39 @@ sid=........
             <td>支付金额</td>
             <td>string</td>
             <td>是</td>
-            <td>单位是元</td>
-        </tr>
-        <tr>
-            <td>custom_info</td>
-            <td>客户信息</td>
-            <td>string</td>
-            <td>是</td>
-            <td>创建订单时传给SDK，这里原样回传</td>
-        </tr>
-        <tr>
-            <td>orderStatus</td>
-            <td>支付状态</td>
-            <td>int</td>
-            <td>是</td>
-            <td>1:支付成功，2:支付失败，3:支付超时</td>
-        </tr>
-        <tr>
-            <td>failed_msg</td>
-            <td>支付失败信息</td>
-            <td>string</td>
-            <td>是</td>
             <td></td>
         </tr>
         <tr>
-            <td>cp_order_no</td>
-            <td>cp订单ID</td>
+            <td>sign</td>
+            <td>所有参数key(不包括sign)按照A-Z字段升序拼接key之后md5加密</td>
             <td>string</td>
             <td>是</td>
             <td></td>
-        </tr>
-        <tr>
-            <td>company</td>
-            <td>公司id</td>
-            <td>string</td>
-            <td>是</td>
-            <td>1 互冠</td>
         </tr>
     </tbody>
 </table>
 	
 请求例子：
 ```
-//JSON
-{
-    "data":
-    {
-        "order_no":"abcf1330",
-        "game_id":123,
-        "server_id":654,
-        "huowu_id":"123456",
-        "pay_way":"6",
-        "amount":"100.00",
-        "custom_info":"123",
-        "orderStatus":1,   
-        "failed_msg":"",
-        "cp_order_no":"1234567",
-        "company":1
-    },
-    "sign":"1f96be69a821405d7357847f30bcda81"
+Public function notify(){
+
+    $params['cpOrderNo'] = $_GET['cpOrderNo'];
+    $params['XSOrderNo'] =  $_GET['XSOrderNo'];
+    $params['gameId'] =  $_GET['gameId'];
+    $params['serverId'] =  $_GET['serverId'];
+    $params['amount'] =  $_GET['amount'];
+    $params['orderStatus'] = $_GET['orderStatus'];
+    $sign = $_GET['sign'];
+
+    ksort($data);
+    $params['key'] = 'dfsklfjslfksl7834853jghyg' ;
+    if(md5(implode('', $params))==$sign){
+        echo 'success';
+        //CP方数据处理
+
+    }
 }
+
 ```
 
 7）返回内容（string）：
