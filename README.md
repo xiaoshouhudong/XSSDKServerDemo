@@ -52,7 +52,6 @@
 </table>
 
 请求例子：   
-```
 ```php
 Public function notify(){
     $params['gameId'] = $_GET['gameId'];
@@ -67,9 +66,8 @@ Public function notify(){
     }
 }
 ```
-```
 
-7) 返回内容（ json 格式）：
+返回内容（ json 格式）：
 
 <table>
     <thead>
@@ -191,7 +189,7 @@ Public function notify(){
 }
 ```
 
-7）返回内容（string）：
+返回内容（string）：
 <table>
     <thead>
         <tr>
