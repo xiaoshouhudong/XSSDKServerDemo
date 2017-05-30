@@ -7,8 +7,6 @@
 
 
 ##	接口说明
-###	服务器地址
-线上服务器地址：http://sdk.xiaoshouhudong.com
 ###	1、用户会话验证
 * 1) **请求地址：** http://sdk.xiaoshouhudong.com/api.php
 * 2) **调用方式：** HTTP Get
@@ -53,22 +51,22 @@
     </tbody>
 </table>
 
-
-
-签名内容：
-sid=........
-
 请求例子：   
 ```
-//JSON
-{
-    "channelId":”1”, 
-    “cpId”:”4”,
-    “gameId”:”1”,
-    “method”:” verifySession”,
-    “sessionId”:” 57e8de309b165”,
-    "sign":"f578be068e280397f4f1455782ebee85"
+```php
+Public function notify(){
+    $params['gameId'] = $_GET['gameId'];
+    $params['method'] =  $_GET['method'];
+    
+    $sign = $_GET['sign'];
+
+    ksort($data);
+    $params['key'] = 'dfsklfjslfksl7834853jghyg' ;
+    if(md5(implode('', $params))==$sign){
+        echo 'success';
+    }
 }
+```
 ```
 
 7) 返回内容（ json 格式）：
