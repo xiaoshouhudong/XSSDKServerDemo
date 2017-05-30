@@ -9,14 +9,14 @@
 ##	接口说明
 ###	服务器地址
 线上服务器地址：http://sdk.xiaoshouhudong.com
-###	用户会话验证
+###	1、用户会话验证
 * 1) **请求地址：** http://sdk.xiaoshouhudong.com/api.php
 * 2) **调用方式：** HTTP Get
 * 3) **接口描述：**
-验证 token 是否为有效的登录用户会话，若有效则返回其 huowu_id。**“游戏客户端”**通过“SDK 客户端”获取到sessionId（详细参考对应 API 分册），传到**“游戏服务器”**，**“游戏服务器”**到**“SDK 服务器”**验证用户会话sessionId的有效性，获取用户的huowu_id，供游戏使用。</br>**注意：进行接口调用前请确认sessionId是否具备值，如sessionId值为空时请勿调用此接口。**
+验证 token 是否为有效的登录用户会话，若有效则返回其 userId。**“游戏客户端”**通过“SDK 客户端”获取到token，传到**“游戏服务器”**，**“游戏服务器”**到**“SDK 服务器”**验证用户会话token的有效性，获取用户的userId，供游戏使用。</br>**注意：进行接口调用前请确认token是否具备值，如token值为空时请勿调用此接口。**
 * 4) **请求方：** 游戏服务器
 * 5) **响应方：** SDK 服务器
-* 6) **请求内容：** JSON 格式
+* 6) **请求内容：** 
 
 <table>
     <thead>
@@ -30,18 +30,11 @@
     </thead>
     <tbody>
         <tr>
-            <td>channelId</td>
-            <td>服务器处理标识</td>
+            <td>gameId</td>
+            <td>游戏Id</td>
             <td>string</td>
             <td>是</td>
             <td></td>
-        </tr>
-        <tr>
-            <td>cpId</td>
-            <td>合作商id</td>
-            <td>string</td>
-            <td>是</td>
-            <td>4</td>
         </tr>
         <tr>
             <td>method</td>
@@ -55,7 +48,7 @@
             <td>签名参数</td>
             <td>string</td>
             <td>是</td>
-            <td>MD5(cpId+签名内容+apiKey)</td>
+            <td>所有参数key(不包括sign)按照A-Z字段升序拼接key之后md5加密</td>
         </tr>
     </tbody>
 </table>
@@ -99,7 +92,7 @@ sid=........
             <td>0：表示没任何错误，其他值表示出错</td>
         </tr>
         <tr>
-            <td>id</td>
+            <td>userId</td>
             <td>用户id</td>
             <td>string</td>
             <td>是</td>
@@ -112,50 +105,11 @@ sid=........
             <td>是</td>
             <td></td>
         </tr>
-        <tr>
-            <td>mobile</td>
-            <td>用户绑定手机帐号</td>
-            <td>string</td>
-            <td>否</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>password</td>
-            <td>用户密码</td>
-            <td>string</td>
-            <td>否</td>
-            <td></td>
-        </tr>
     </tbody>
 </table>
 
-正确返回例子：
-```
-//JSON
-{    
-    "errorCoder": 0,
-    "data":
-    {
-        "id": “2000”,
-        "userName": "huowu",
-        "mobile": "12345678911",
-        "password": "abc123"
-    }
-}
-```
 
-错误返回例子：
-```
-{    
-    "errorCoder": 4,
-    "data":
-    {
-        "msg": “错误信息”
-    }
-}
-```
-
-###	支付结果异步通知
+###	2、支付结果异步通知
 * 1）**请求地址：** 由游戏cp方提供
 * 2）**调用方式：** HTTP Get
 * 3）**接口描述：**
@@ -220,7 +174,7 @@ sid=........
 </table>
 	
 请求例子：
-```
+```php
 Public function notify(){
     $params['cpOrderNo'] = $_GET['cpOrderNo'];
     $params['XSOrderNo'] =  $_GET['XSOrderNo'];
