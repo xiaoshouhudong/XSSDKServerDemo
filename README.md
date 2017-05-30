@@ -1,83 +1,19 @@
 # 小手互动SDK服务端说明文档
-小手互动服务端Demo
 
-[![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/seven/HGSDKServerDemo/master/LICENSE)&nbsp;
+[![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/xiaoshouhudong/XSSDKServerDemo/master/LICENSE)&nbsp;
 
 
-##	概要</br>
-本部分主要提供互冠游戏中心**”SDK服务器”**和互冠游戏合作商**“游戏服务器”**之间交互的接口规范.
-##	协议说明
-###	通信协议
 
-**"SDK 服务器"** 采用 HTTP 协议作为通信协议，**"游戏服务器"** 通过构造HTTP 请求（ POST 方式）向**"SDK 服务器"** 发起接口请求。
-**"游戏服务器"** HTTP 请求数据示例：
-```
-//JSON:
-{
-    "cp_id":4,
-    "gameId":4,
-    "server_id":4
-    "sid" : "xxxxxxx",
-    "sign":"edf8015c9eae9515849bd1d06b8183f8",
-    "method" : "verifySession",
-}
-```
 
-**SDK 服务器** 响应数据示例：</br>
-200 OK</br>
-Content-Type: application/json:charset=utf-8
-```
-//JSON:
-{    
-    "errorcode": 0,
-    "data":
-    {
-        "huowu_id": "xxxxxxxx"
-    }
-}
-```
-
-####	数据协议
-* 1)	**数据格式**
-请求消息和响应消息的内容都使用 json 格式表示数据，具体请参考下文的例子。
-* 2)	**字符编码**
-请求与响应内容（ json 格式数据）须采用 utf-8 字符编码。
-* 3)	**签名规则**
-使用 md5 哈希对请求内容进行签名。
-    * 算法：md5(签名内容+api_key)</br>
-    * 说明: md5编码后需要转换回全小写，表达式中的 "+"好表示连接字符串，拼接式需去掉，</br>
-    * 签名内容：post请求中取请求数据json的data中的字段，get请求取所有参数字段。各字段名及其字段值进行拼接，字段名和字段值之间使用等号(=)连接。拼接时需要对字段名进行排序，排序方式是按字段名进行升序排列。</br>
-    * 签名示例:post请求的签名示例</br>
-    * 请求：path: /g/users/reg
-```
-//JSON:
-body:
-{
-    "channelId":”1”, 
-    “cpId”:”4”,
-    “gameId”:”1”,
-    “method”:” verifySession”,
-    “sessionId”:” 57e8de309b165”,
-    "sign":"f578be068e280397f4f1455782ebee85"
-}  
-```
-
-排序拼接后得出的要签名内容串为：		
-```
-channelId=1cpId=4gameId=1method=verifySessionsessionId=57e8de309b165
-假设 app_key=69a782fdc493bbd2d7d615ed24fe2d8b
-要进行md5哈希的字符串为：
-channelId=1cpId=4gameId=1method=verifySessionsessionId=57e8de309b16569a782fdc493bbd2d7d615ed24fe2d8b执行md5哈希后，得到最终签名值	sign=f578be068e280397f4f1455782ebee85
-```
 
 ##	接口说明
 ###	服务器地址
-线上服务器地址：http://hwsdk.huguangame.com/
+线上服务器地址：http://sdk.xiaoshouhudong.com
 ###	用户会话验证
-* 1) **请求地址：** http://hwsdk.huguangame.com/api.php
-* 2) **调用方式：** HTTP POST
+* 1) **请求地址：** http://sdk.xiaoshouhudong.com/api.php
+* 2) **调用方式：** HTTP Get
 * 3) **接口描述：**
-验证 sessionId 是否为有效的登录用户会话，若有效则返回其 huowu_id。**“游戏客户端”**通过“SDK 客户端”获取到sessionId（详细参考对应 API 分册），传到**“游戏服务器”**，**“游戏服务器”**到**“SDK 服务器”**验证用户会话sessionId的有效性，获取用户的huowu_id，供游戏使用。</br>**注意：进行接口调用前请确认sessionId是否具备值，如sessionId值为空时请勿调用此接口。**
+验证 token 是否为有效的登录用户会话，若有效则返回其 huowu_id。**“游戏客户端”**通过“SDK 客户端”获取到sessionId（详细参考对应 API 分册），传到**“游戏服务器”**，**“游戏服务器”**到**“SDK 服务器”**验证用户会话sessionId的有效性，获取用户的huowu_id，供游戏使用。</br>**注意：进行接口调用前请确认sessionId是否具备值，如sessionId值为空时请勿调用此接口。**
 * 4) **请求方：** 游戏服务器
 * 5) **响应方：** SDK 服务器
 * 6) **请求内容：** JSON 格式
@@ -271,7 +207,7 @@ sid=........
             <td>支付金额</td>
             <td>string</td>
             <td>是</td>
-            <td></td>
+            <td>单位是元</td>
         </tr>
         <tr>
             <td>sign</td>
@@ -286,7 +222,6 @@ sid=........
 请求例子：
 ```
 Public function notify(){
-
     $params['cpOrderNo'] = $_GET['cpOrderNo'];
     $params['XSOrderNo'] =  $_GET['XSOrderNo'];
     $params['gameId'] =  $_GET['gameId'];
@@ -300,10 +235,8 @@ Public function notify(){
     if(md5(implode('', $params))==$sign){
         echo 'success';
         //CP方数据处理
-
     }
 }
-
 ```
 
 7）返回内容（string）：
@@ -317,7 +250,7 @@ Public function notify(){
     <tbody>
         <tr>
             <td>success</td>
-            <td>成功,表示游戏服务器成功接收了该次充值结果通知,对于充值结果为失败的,只要能成功接收,也应返回 success。</td>
+            <td>成功,表示游戏服务器成功接收了该次充值结果通知</td>
         </tr>
         <tr>
             <td>failed</td>
