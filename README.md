@@ -93,7 +93,7 @@ Public function notify(){
 * 2）**调用方式：** HTTP Get
 * 3）**接口描述：**
 **“游戏客户端”**购买成功后，**“SDK 服务器”**通过该接口通知**”游戏服务器“**。支付成功一定会及时回调通知，支付失败可能不会及时通知（如支付超时等无法及时通知），如果需要知道订单状态，使用支付结果查询结构。
-* 4）**请求方：** SDK 服务器  '''http://sdk.xiaoshouhudong.com/api.php/pay/topay'''
+* 4）**请求方：** SDK 服务器  **http://sdk.xiaoshouhudong.com/api.php/pay/topay**
 * 5）**响应方：** 游戏服务器 
 * 6）**请求内容：** JSON 格式
 <table>
