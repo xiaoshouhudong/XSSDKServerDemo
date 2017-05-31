@@ -8,7 +8,7 @@
 
 ##	接口说明
 ###	1、用户会话验证
-* 1) **请求地址：** http://sdk.xiaoshouhudong.com/api.php
+* 1) **请求地址：** http://sdk.xiaoshouhudong.com/api.php/open/verifySession
 * 2) **调用方式：** HTTP Get
 * 3) **接口描述：**
 验证 token 是否为有效的登录用户会话，若有效则返回其 userId。**“游戏客户端”**通过“SDK 客户端”获取到token，传到**“游戏服务器”**，**“游戏服务器”**到**“SDK 服务器”**验证用户会话token的有效性，获取用户的userId，供游戏使用。</br>**注意：进行接口调用前请确认token是否具备值，如token值为空时请勿调用此接口。**
@@ -29,7 +29,7 @@
     <tbody>
         <tr>
             <td>gameId</td>
-            <td>游戏Id</td>
+            <td>小手互动后台申请(游戏Id)</td>
             <td>string</td>
             <td>是</td>
             <td></td>
@@ -40,6 +40,13 @@
             <td>string</td>
             <td>是</td>
             <td>verifySession</td>
+        </tr>
+        <tr>
+            <td>imei</td>
+            <td>接口名</td>
+            <td>设备号</td>
+            <td>是</td>
+            <td>iOS读idfa,Android读imei</td>
         </tr>
         <tr>
             <td>sign</td>
@@ -54,55 +61,31 @@
 请求例子：   
 ```php
 Public function notify(){
-    $params['gameId'] = $_GET['gameId'];
-    $params['method'] =  $_GET['method'];
-    
-    $sign = $_GET['sign'];
-
-    ksort($data);
-    $params['key'] = 'dfsklfjslfksl7834853jghyg' ;
-    if(md5(implode('', $params))==$sign){
-        echo 'success';
-    }
+    $params['gameId'] = 1;
+    $params['imei'] = 'imeidemo';
+    $params['token'] = 'tokendemo';
+    ksort($params);
+    $params['key'] = 'key';//由小手互动颁发
+    $params['sign'] = md5(implode('', $params));
+    unset($params['key']);
+    $res = file_get_contents(http_build_query($url.$keys));
+    //处理$res数据
 }
 ```
 
 返回内容（ json 格式）：
 
-<table>
-    <thead>
-        <tr>
-            <th>字段名称</th>
-            <th>字段说明</th>
-            <th>类型</th>
-            <th>必填</th>
-            <th>备注</th> 
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>errorCode</td>
-            <td>服务器处理标识</td>
-            <td>string</td>
-            <td>是</td>
-            <td>0：表示没任何错误，其他值表示出错</td>
-        </tr>
-        <tr>
-            <td>userId</td>
-            <td>用户id</td>
-            <td>string</td>
-            <td>是</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>userName</td>
-            <td>用户帐号</td>
-            <td>string</td>
-            <td>是</td>
-            <td></td>
-        </tr>
-    </tbody>
-</table>
+```
+{
+    "errorCode": 0,
+    "errorMsg": "",
+    "data": {
+        "userId": "8",
+        "userName": "zxwzxw"
+    }
+}
+```
+
 
 
 ###	2、支付结果异步通知
