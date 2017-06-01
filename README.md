@@ -158,7 +158,7 @@ Public function notify(){
     </tbody>
 </table>
 	
-请求例子：
+CP方处理例子：
 ```php
 Public function notify(){
     $params['cpOrderNo'] = $_GET['cpOrderNo'];
@@ -170,7 +170,7 @@ Public function notify(){
     $params['userId'] = $_GET['userId'];
     $sign = $_GET['sign'];
 
-    ksort($data);
+    ksort($params);
     $params['key'] = 'dfsklfjslfksl7834853jghyg' ;
     if(md5(implode('', $params))==$sign){
         echo 'success';
