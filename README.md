@@ -104,14 +104,21 @@ Public function notify(){
             <td>CP方订单</td>
             <td>int</td>
             <td>是</td>
-            <td>JSON格式</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>userId</td>
+            <td>用户Id</td>
+            <td>int</td>
+            <td>是</td>
+            <td></td>
         </tr>
         <tr>
             <td>XSOrderNo</td>
             <td>小手互动平台订单</td>
             <td>int</td>
             <td>是</td>
-            <td></td>
+            <td>小手互动平台订单</td>
         </tr>
         <tr>
             <td>gameId</td>
