@@ -42,13 +42,6 @@
             <td>token令牌</td>
         </tr>
         <tr>
-            <td>imei</td>
-            <td>接口名</td>
-            <td>设备号</td>
-            <td>是</td>
-            <td>iOS读idfa,Android读imei</td>
-        </tr>
-        <tr>
             <td>sign</td>
             <td>签名参数</td>
             <td>string</td>
@@ -62,7 +55,6 @@
 ```php
 Public function notify(){
     $params['gameId'] = 1;
-    $params['imei'] = 'imeidemo';
     $params['token'] = 'tokendemo';
     ksort($params);
     $params['key'] = 'key';//由小手互动颁发
