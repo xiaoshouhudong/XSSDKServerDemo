@@ -35,11 +35,11 @@
             <td></td>
         </tr>
         <tr>
-            <td>method</td>
+            <td>token</td>
             <td>接口名</td>
             <td>string</td>
             <td>是</td>
-            <td>verifySession</td>
+            <td>token令牌</td>
         </tr>
         <tr>
             <td>imei</td>
