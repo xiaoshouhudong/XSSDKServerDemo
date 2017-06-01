@@ -118,7 +118,7 @@ Public function notify(){
             <td>小手互动平台订单</td>
             <td>int</td>
             <td>是</td>
-            <td>小手互动平台订单</td>
+            <td></td>
         </tr>
         <tr>
             <td>gameId</td>
@@ -167,7 +167,7 @@ Public function notify(){
     $params['serverId'] =  $_GET['serverId'];
     $params['amount'] =  $_GET['amount'];
     $params['orderStatus'] =  $_GET['orderStatus'];
-    $params['orderStatus'] = $_GET['orderStatus'];
+    $params['userId'] = $_GET['userId'];
     $sign = $_GET['sign'];
 
     ksort($data);
