@@ -135,6 +135,13 @@ Public function notify(){
             <td>单位是元</td>
         </tr>
         <tr>
+            <td>orderStatus</td>
+            <td>订单状态</td>
+            <td>int</td>
+            <td>是</td>
+            <td>1：已支付，0：未支付</td>
+        </tr>
+        <tr>
             <td>sign</td>
             <td>所有参数key(不包括sign)按照A-Z字段升序拼接key之后md5加密</td>
             <td>string</td>
@@ -152,6 +159,7 @@ Public function notify(){
     $params['gameId'] =  $_GET['gameId'];
     $params['serverId'] =  $_GET['serverId'];
     $params['amount'] =  $_GET['amount'];
+    $params['orderStatus'] =  $_GET['orderStatus'];
     $params['orderStatus'] = $_GET['orderStatus'];
     $sign = $_GET['sign'];
 
